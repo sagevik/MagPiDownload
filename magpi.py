@@ -1,4 +1,4 @@
-#! /usr/local/bin/python3
+#! /usr/bin/env python3
 """
 Simple script for downloading MagPi magazine
 python3 magpi.py <issuenr>
