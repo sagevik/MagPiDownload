@@ -51,7 +51,7 @@ for nr in range(start, end+1):
         nr = "0" + str(nr)
     else:
         nr = str(nr)
-    dl_url = f"https://magpi.raspberrypi.org/issues/{nr}/pdf/download"
+    dl_url = f"https://magpi.raspberrypi.com/issues/{nr}/pdf/download"
              
     web = requests.get(dl_url)
     web_content = str(web.content)
@@ -61,7 +61,7 @@ for nr in range(start, end+1):
         if 'href="/downloads/' in i and ".pdf" in i:
             dl_string = i.split('href="')[1]
             dl_string = dl_string.split('">')[0]
-            download_link = "https://magpi.raspberrypi.org" + dl_string
+            download_link = "https://magpi.raspberrypi.com" + dl_string
         if download_link:
             break
 
