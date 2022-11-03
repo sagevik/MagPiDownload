@@ -5,9 +5,11 @@ python3 magpi.py <issuenr>
 python3 magpi.py <start-issuenr> <end-issuenr>
 """
 import os
-import requests
-import sys
 import pathlib
+import platform
+import sys
+
+import requests
 
 one_issue = 2
 multi_issues = 3
@@ -46,16 +48,16 @@ if end:
     if start > end:
         start, end = end, start
 
-for nr in range(start, end+1):
+for nr in range(start, end + 1):
     if nr < 10:
         nr = "0" + str(nr)
     else:
         nr = str(nr)
     dl_url = f"https://magpi.raspberrypi.com/issues/{nr}/pdf/download"
-             
+
     web = requests.get(dl_url)
     web_content = str(web.content)
-    web_content = web_content.split('<')
+    web_content = web_content.split("<")
     download_link = ""
     for i in web_content:
         if 'href="/downloads/' in i and ".pdf" in i:
@@ -67,6 +69,8 @@ for nr in range(start, end+1):
 
     if download_link:
         dl_path = f"/Users/{os.getlogin()}/Documents/Magazines/MagPi/MagPi{nr}.pdf"
+        if platform.system() == "Linux":
+            dl_path = f"/home/{os.getlogin()}/Documents/Magazines/MagPi/MagPi{nr}.pdf"
         if os.path.exists(dl_path):
             print(f"MagPi{nr}.pdf already downloaded")
         else:
@@ -75,6 +79,6 @@ for nr in range(start, end+1):
             print(f"Downloading Magpi{nr} - {download_link}")
             myfile = requests.get(download_link)
             print(f"Saving Magpi{nr} - {dl_path}")
-            open(dl_path, 'wb').write(myfile.content)
+            open(dl_path, "wb").write(myfile.content)
     else:
         print(f"Found no download link to Magpi issue {nr}")
